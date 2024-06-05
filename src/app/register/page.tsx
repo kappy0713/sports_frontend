@@ -16,13 +16,35 @@ export default function Page() {
         console.log('Password:', password);
     };
 
-    const Login = (event: React.FormEvent) => {
+    const Register = async (event: React.FormEvent) => {
         if (!username || !email || !password) {
             event.preventDefault();
             alert("全ての項目を入力してください。");
-        } else {
-            router.push("/login");
+            return;
         }
+        
+        const URL = process.env.SERVER_URL;
+        const response = await fetch(`${URL}/register`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: username,
+            email: email,
+            password: password,
+          }),
+        });
+
+        if (!response.ok) {
+          console.error("registration failed");
+          return;
+        }
+
+        const data = await response.json();
+        console.log("registration successful:", data);
+
+        router.push("/login");
     };
 
     return (
@@ -72,7 +94,7 @@ export default function Page() {
             <div className="flex items-center justify-between">
               <button
                 type="submit"
-                onClick={Login}
+                onClick={Register}
                 className="w-full py-2 px-4 mt-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm md:text-base"
               >
                 新規登録
