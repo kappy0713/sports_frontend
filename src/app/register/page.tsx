@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { UserRegister } from "../../utils/auth";
  
 export default function Page() {
     const [username, setName] = useState('');
@@ -22,26 +23,8 @@ export default function Page() {
             alert("全ての項目を入力してください。");
             return;
         }
-        
-        const URL = process.env.SERVER_URL;
-        const response = await fetch(`${URL}/register`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: username,
-            email: email,
-            password: password,
-          }),
-        });
 
-        if (!response.ok) {
-          console.error("registration failed");
-          return;
-        }
-
-        const data = await response.json();
+        const data = await UserRegister(username, email, password);
         console.log("registration successful:", data);
 
         router.push("/login");
