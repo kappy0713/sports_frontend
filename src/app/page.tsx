@@ -38,9 +38,16 @@ export default function Home() {
     router.push("/login")
   }
 
+  const Post = () => {
+    router.push("/post")
+  }
+
   return (
     <div>
       <h1>Hello World</h1>
+      <h1 onClick={Post}>
+        投稿ページ
+      </h1>
       {user && <div>
         <h2>ユーザー情報</h2>
         <p>ID：{user.id}</p>
