@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import { UserAuth } from "../../utils/auth";
  
 export default function Page() {
     const [username, setName] = useState('');
@@ -16,24 +17,7 @@ export default function Page() {
     };
     
     const Login = async (event: React.FormEvent) => {
-      const URL = process.env.SERVER_URL;
-      const response = await fetch(`${URL}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: username,
-          password: password,
-        }),
-      });
-
-      if (!response.ok) {
-        console.error("login failed");
-        return;
-      }
-
-      const token = await response.json();
+      const token = await UserAuth(username, password);
       console.log("login successful:", token);
       Cookies.set("token", token.token);
 
