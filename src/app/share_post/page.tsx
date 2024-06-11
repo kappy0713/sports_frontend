@@ -2,26 +2,23 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation";
-import { ExecisePost } from "@/utils/post";
+import { SharePost } from "@/utils/post";
 
 export default function Page () {
   const today = new Date().toISOString().split('T')[0];
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
-  const [date, setDate] = useState<Date>(new Date());
-  const [hours, setHours] = useState('0');
-  const [minutes, setMinutes] = useState('0');
+  const [url, setURL] = useState('');
   const router = useRouter();
 
-  const time = Number(hours) * 60 + Number(minutes);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    console.log({ title, body, date, time });
+    console.log({ title, body, url});
   };
 
   const Post = async (event: React.FormEvent) => {
-    ExecisePost(title, body, date, time);
+    SharePost(title, body, url);
     
     router.push("/")
   }
@@ -46,25 +43,11 @@ export default function Page () {
           />
         </div>
         <div>
-          <label>日付:</label>
-          <input
-            type="date"
-            value={date.toISOString().split('T')[0]}
-            onChange={(e) => setDate(new Date(e.target.value))}
+          <label>URL:</label>
+          <textarea
+            value={url}
+            onChange={(e) => setURL(e.target.value)}
           />
-        </div>
-        <div>
-          <label>運動時間:</label>
-          <select value={hours} onChange={(e) => setHours(e.target.value)}>
-            {[...Array(24)].map((_, i) => (
-              <option key={i} value={i}>{i} 時間</option>
-            ))}
-          </select>
-          <select value={minutes} onChange={(e) => setMinutes(e.target.value)}>
-            {[...Array(12)].map((_, i) => (
-              <option key={i} value={i * 5}>{i * 5} 分</option>
-            ))}
-          </select>
         </div>
         <button
           onClick={Post}
