@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
+import Header from "@/app/Header"
 
 type User = {
   id: number;
@@ -48,7 +49,8 @@ export default function Home() {
 
   return (
     <div>
-      <h1>Hello World</h1>
+      <Header />
+      <h1 className="mt-20">Hello World</h1>
       <h1 onClick={Post}>
         投稿ページ(運動記録)
       </h1>
