@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation";
 import { ExecisePost } from "@/utils/post";
+import Header from "@/app/Header"
 
 export default function Page () {
   const today = new Date().toISOString().split('T')[0];
@@ -28,7 +29,8 @@ export default function Page () {
     
   return (
     <div>
-      <h1>投稿フォーム</h1>
+      <Header />
+      <h1 className="mt-20">投稿フォーム</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label>タイトル:</label>
