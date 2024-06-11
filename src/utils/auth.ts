@@ -1,3 +1,5 @@
+import toast from "react-hot-toast";
+
 // サーバーサイドにログイン情報を送信する関数
 export const UserAuth = async(username: string, password: string): Promise<any> => {
   const URL = process.env.SERVER_URL;
@@ -14,9 +16,11 @@ export const UserAuth = async(username: string, password: string): Promise<any> 
     });
 
     if (!response.ok) {
-      console.error("login failed");
+      toast.error("ログインできませんでした")
       return "";
     }
+
+    toast.success("ログイン成功")
 
     const token = await response.json();
     return token;
@@ -43,9 +47,11 @@ export const UserRegister = async(username: string, email: string, password: str
     });
 
     if (!response.ok) {
-      console.error("registration failed");
+      toast.error("新規登録に失敗しました");
       return "";
     }
+
+    toast.success("新規登録が完了しました")
 
     const data = await response.json();
     return data;
