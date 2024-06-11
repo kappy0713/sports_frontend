@@ -42,11 +42,18 @@ export default function Home() {
     router.push("/post")
   }
 
+  const SharePost = () => {
+    router.push("/share_post")
+  }
+
   return (
     <div>
       <h1>Hello World</h1>
       <h1 onClick={Post}>
-        投稿ページ
+        投稿ページ(運動記録)
+      </h1>
+      <h1 onClick={SharePost}>
+        投稿ページ(運動情報)
       </h1>
       {user && <div>
         <h2>ユーザー情報</h2>

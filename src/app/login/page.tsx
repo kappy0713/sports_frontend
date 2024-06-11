@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-import { UserAuth } from "../../utils/auth";
+import { UserAuth } from "@/utils/auth";
  
 export default function Page() {
     const [username, setName] = useState('');
