@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { UserRegister } from "@/utils/auth";
+import { toast } from "react-hot-toast"
  
 export default function Page() {
     const [username, setName] = useState('');
@@ -19,8 +20,7 @@ export default function Page() {
 
     const Register = async (event: React.FormEvent) => {
         if (!username || !email || !password) {
-            event.preventDefault();
-            alert("全ての項目を入力してください。");
+            toast.error("全ての項目を入力してください")
             return;
         }
 
@@ -45,7 +45,6 @@ export default function Page() {
                 value={username}
                 onChange={(e) => setName(e.target.value)}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm md:text-base"
-                required
               />
             </div>
             <div className="mb-4">
@@ -58,7 +57,6 @@ export default function Page() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm md:text-base"
-                required
               />
             </div>
             <div className="mb-6">
@@ -71,7 +69,6 @@ export default function Page() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm md:text-base"
-                required
               />
             </div>
             <div className="flex items-center justify-between">
