@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation";
 import { SharePost } from "@/utils/post";
 import Header from "@/app/Header"
+import toast from "react-hot-toast";
 
 export default function Page () {
   const [title, setTitle] = useState('');
@@ -19,8 +20,10 @@ export default function Page () {
 
   const Post = async (event: React.FormEvent) => {
     SharePost(title, body, url);
+
+    toast.success("投稿を送信しました");
     
-    router.push("/")
+    router.push("/share");
   }
     
   return (
@@ -36,7 +39,7 @@ export default function Page () {
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="border border-gray-300 rounded p-2 w-full"
+                  className="border border-gray-300 rounded p-2 w-full focus:outline-none focus:ring-emerald-500 focus:border-emerald-500"
                 />
               </div>
               <div>
@@ -44,7 +47,7 @@ export default function Page () {
                 <textarea
                   value={body}
                   onChange={(e) => setBody(e.target.value)}
-                  className="border border-gray-300 rounded p-2 w-full resize-none h-32"
+                  className="border border-gray-300 rounded p-2 w-full resize-none h-32 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500"
                 />
               </div>
               <div>
@@ -52,14 +55,14 @@ export default function Page () {
                 <textarea
                   value={url}
                   onChange={(e) => setURL(e.target.value)}
-                  className="border border-gray-300 rounded p-2 w-full resize-none h-16"
+                  className="border border-gray-300 rounded p-2 w-full resize-none h-16 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500"
                 />
               </div>
               <div className="flex justify-center">
                 <button
                   onClick={Post}
                   type="submit"
-                  className="py-2 px-4 mt-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm md:text-base"
+                  className="py-2 px-4 mt-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-400 hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 sm:text-sm md:text-base"
                 >
                   投稿
                 </button>

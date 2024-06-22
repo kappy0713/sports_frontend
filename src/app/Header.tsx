@@ -17,10 +17,10 @@ const Header = () => {
           </a>
         </div>
         <nav className="flex space-x-6">
-          <a href="/list" className={`text-black hover:text-emerald-400 text-accent capitalize ${path === "/list" ? "underline decoration-emerald-400 decoration-2 underline-offset-8" : ""}`}>
+          <a href="/list" className={`text-black hover:text-emerald-400 text-accent capitalize ${path === "/list" || path ==="/post" ? "underline decoration-emerald-400 decoration-2 underline-offset-8" : ""}`}>
             投稿一覧
           </a>
-          <a href="/share" className={`text-black hover:text-emerald-400 text-accent capitalize ${path === "/share" ? "underline decoration-emerald-400 decoration-2 underline-offset-8" : ""}`}>
+          <a href="/share" className={`text-black hover:text-emerald-400 text-accent capitalize ${path === "/share" || path ==="/share_post" ? "underline decoration-emerald-400 decoration-2 underline-offset-8" : ""}`}>
             情報共有
           </a>
           <a href="/bookmark" className={`text-black hover:text-emerald-400 text-accent capitalize ${path === "/bookmark" ? "underline decoration-emerald-400 decoration-2 underline-offset-8" : ""}`}>
