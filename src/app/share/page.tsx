@@ -24,7 +24,7 @@ export default function Page() {
             <div className="p-6">
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">{post.title}</h5>
               <p className="text-xl mb-3 font-normal text-gray-700">{post.body}</p>
-              <span>URL：</span><a href={post.url} className="text-md mb-3 font-normal text-gray-700 underline" target='_blank'>{post.url}</a>
+              <span>URL：</span><a href={post.url} className="text-md mb-3 font-normal text-gray-700 hover:text-emerald-400 underline" target='_blank'>{post.url}</a>
             </div>
           </div>
         ))}
