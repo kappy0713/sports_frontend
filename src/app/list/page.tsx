@@ -1,18 +1,57 @@
 "use client";
 
 import Header from "@/app/Header";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { ThreeDots } from "@agney/react-loading";
+
+interface Post {
+  id: number;
+  title: string;
+  body: string;
+  date: string;
+  time: number;
+}
 
 export default function Page() {
   const router = useRouter();
+  const URL = process.env.SERVER_URL
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [Load, setLoad] = useState(true);
 
-  const posts = [
-    { id: 1, title: "あああ", body: "筋トレ好き好き好き好き好き好き好き好き好き好き好き好き好き好き好き好き好き", date: "2024-06-20", time: 90 },
-    { id: 2, title: "いいい", body: "読書", date: "2024-06-21", time: 45 },
-  ];
+  useEffect(() => {
+    const Posts = async () => {
+      try{
+        const response = await fetch(`${URL}/list`);
+        const data = await response.json()
+        setPosts(data);
+      } catch (error) {
+        console.error("falied to fetch data");
+      } finally {
+        setLoad(false);
+      }
+    };
+
+    Posts();
+  }, []);
+
+  const FixDate = (Date: string) => {
+    return Date.split("T")[0];
+  }
 
   const Post =() => {
     router.push("/post")
+  }
+
+  if (Load) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-gray-100">
+        <Header />
+        <div className="absolute">
+          <ThreeDots width="50" color="#3db70f"/>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -23,7 +62,7 @@ export default function Page() {
         <div key={post.id} className="max-w-2xl w-full bg-zinc-50 rounded-lg border-2 border-emerald-400 shadow-md">
           <div className="px-6 pt-6 pb-4 flex justify-between">
             <h5 className="text-2xl font-bold tracking-tight text-gray-800">{post.title}</h5>
-            <span className="text-sm text-gray-500">{post.date}</span>
+            <span className="text-sm text-gray-500">{FixDate(post.date)}</span>
           </div>
           <div className="px-6 pb-6 flex justify-between">
             <p className="text-xl font-normal text-gray-700">{post.body}</p>
