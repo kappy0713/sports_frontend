@@ -71,8 +71,8 @@ export default function Page() {
             </span>
           </div>
         </div>
-      ))}
-    </div>
+        ))}
+      </div>
       <div className="fixed bottom-6 right-6">
         <button 
           className=" scale-110 p-4 bg-emerald-400 rounded-full text-white shadow-lg hover:bg-emerald-500 focus:outline-none focus:ring-2 focus:ring-blue-300"
