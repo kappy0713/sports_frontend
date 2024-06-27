@@ -8,6 +8,8 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin, { Draggable, DropArg } from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import { ThreeDots } from "@agney/react-loading";
+import Cookies from "js-cookie"
+import { useRouter } from 'next/navigation';
 
 
 interface Post {
@@ -25,28 +27,59 @@ interface Times {
 
 export default function Page() {
   const URL = process.env.SERVER_URL
+  const router = useRouter();
   const [posts, setPosts] = useState<Post[]>([]);
   const [times, setTimes] = useState<Times[]>([]);
+  const [monthtimes, setMonthTimes] = useState<Times[]>([]);
   const [Load, setLoad] = useState(true);
 
   useEffect(() => {
-    const MyPage = async () => {
-      try{
-        const post = await fetch(`${URL}/mypage`);
-        const post_data = await post.json()
-        const time = await fetch(`${URL}/time`);
-        const times_data = await time.json()
-        console.log(times_data)
-        setPosts(post_data);
-        setTimes(times_data);
-      } catch (error) {
-        console.error("falied to fetch data");
-      } finally {
-        setLoad(false);
-      }
-    };
-
-    MyPage();
+    const token = Cookies.get("token");
+  
+    if (!token) {
+      router.push("/login");
+    } else {
+      const MyPage = async () => {
+        try {
+          const postResponse = await fetch(`${URL}/mypage`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+          });
+          const post_data = await postResponse.json();
+  
+          const timeResponse = await fetch(`${URL}/time`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+          });
+          const times_data = await timeResponse.json();
+  
+          const monthtimeResponse = await fetch(`${URL}/month`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+          });
+          const monthtime_data = await monthtimeResponse.json();
+  
+          setPosts(post_data);
+          setTimes(times_data);
+          setMonthTimes(monthtime_data);
+        } catch (error) {
+          console.error("Failed to fetch data", error);
+        } finally {
+          setLoad(false);
+        }
+      };
+  
+      MyPage();
+    }
   }, []);
 
   if (Load) {
@@ -60,17 +93,13 @@ export default function Page() {
     )
   }
 
-  // const posts = [
-  //   { id: 1, title: "投稿タイトル1", body: "ここに投稿の内容が入ります。" , date: "2024-06-23", time: 30},
-  //   { id: 2, title: "投稿タイトル2", body: "ここに投稿の内容が入ります。" , date: "2024-06-23", time: 30},
-  // ];
-  
   const dataFormatter = (number: number) =>
     Intl.NumberFormat('us').format(number).toString();
 
   const FixDate = (Date: string) => {
     return Date.split("T")[0];
   }
+
 
   return (
     <div className="mt-16 bg-gray-100">
