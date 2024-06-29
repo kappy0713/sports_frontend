@@ -28,6 +28,7 @@ interface Times {
 export default function Page() {
   const URL = process.env.SERVER_URL
   const router = useRouter();
+  const [name, setName] =useState<string>("");
   const [posts, setPosts] = useState<Post[]>([]);
   const [times, setTimes] = useState<Times[]>([]);
   const [monthtimes, setMonthTimes] = useState<Times[]>([]);
@@ -41,6 +42,15 @@ export default function Page() {
     } else {
       const MyPage = async () => {
         try {
+          const nameResponse = await fetch(`${URL}/name`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+          });
+          const name_data = await nameResponse.json();
+          
           const postResponse = await fetch(`${URL}/mypage`, {
             method: 'POST',
             headers: {
@@ -67,10 +77,12 @@ export default function Page() {
             },
           });
           const monthtime_data = await monthtimeResponse.json();
-  
+          
+          setName(name_data.name);
           setPosts(post_data);
           setTimes(times_data);
           setMonthTimes(monthtime_data);
+          console.log(monthtimes)
         } catch (error) {
           console.error("Failed to fetch data", error);
         } finally {
@@ -100,11 +112,30 @@ export default function Page() {
     return Date.split("T")[0];
   }
 
+  const backgroundEvents = monthtimes.map(day => ({
+    start: day.date,
+    backgroundColor: day.time === 0 ? 'white' :
+                     day.time >= 1 && day.time <= 14 ? 'red' :
+                     day.time >= 15 && day.time <= 29 ? 'blue' :
+                     day.time >= 30 && day.time <= 59 ? 'green' : 'emerald',
+    display: 'background'
+  }));
+
+  const Greeting = (): string => {
+    const hour = new Date().getHours();
+    if (hour < 10) {
+      return 'おはようございます';
+    } else if (hour >= 10 && hour < 18) {
+      return 'こんにちは';
+    } else {
+      return 'こんばんは';
+    }
+  };
 
   return (
     <div className="mt-16 bg-gray-100">
       <Header />
-      <h1 className="p-4 text-bold text-2xl">〇〇さん、こんにちは！</h1>
+      <h1 className="p-4 text-bold text-2xl">{name}さん、{Greeting()}！</h1>
       <div className="">
         <h1 className="px-4 text-bold text-2xl">直近7日間の記録</h1>
         <BarChart
@@ -122,24 +153,21 @@ export default function Page() {
         <div className="flex justify-center items-center w-full">
           <div className="w-full min-h-screen">
             <FullCalendar 
-              plugins={[
-                dayGridPlugin,
-                interactionPlugin,
-                timeGridPlugin
-              ]}
+              plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
+              events={backgroundEvents}
               headerToolbar={{
                 left: 'prev, next today',
                 center: 'title',
                 right: 'resourceTimelineWook, dayGridMonth, timeGridWeek'
               }}
-              contentHeight="auto"
+              contentHeight="{600px}"
               height="100vh"
             />
           </div>
         </div>
       </div>
       <div>
-        <h1 className="pt-4 px-4 text-bold text-2xl">〇〇さんの記録</h1>
+        <h1 className="pt-4 px-4 text-bold text-2xl">{name}さんの記録</h1>
         <div className="flex flex-col items-center p-6 space-y-4">
         {posts.map((post) => (
           <div key={post.id} className="max-w-2xl w-full bg-zinc-50 rounded-lg border-2 border-emerald-400 shadow-md">
