@@ -115,9 +115,9 @@ export default function Page() {
   const backgroundEvents = monthtimes.map(day => ({
     start: day.date,
     backgroundColor: day.time === 0 ? 'white' :
-                     day.time >= 1 && day.time <= 14 ? 'red' :
-                     day.time >= 15 && day.time <= 29 ? 'blue' :
-                     day.time >= 30 && day.time <= 59 ? 'green' : 'emerald',
+                     day.time >= 1 && day.time < 15 ? '#bbf7d0' :
+                     day.time >= 15 && day.time < 30 ? '#86efac' :
+                     day.time >= 30 && day.time < 60 ? '#4ade80' : '#22c55e',
     display: 'background'
   }));
 
