@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import Header from "@/app/Header"
+import img from "@/img/rain_run.webp"
 
 type User = {
   id: number;
@@ -20,7 +21,7 @@ export default function Home() {
     const token = Cookies.get("token");
 
     if (!token) {
-      router.push("/login");
+      // router.push("/login");
     } else {
       fetch(`${URL}/`, {
         method: 'POST',
@@ -49,20 +50,30 @@ export default function Home() {
 
   return (
     <div>
-      <Header />
-      <h1 className="mt-20">Hello World</h1>
-      <h1 onClick={Post}>
-        投稿ページ(運動記録)
-      </h1>
-      <h1 onClick={SharePost}>
-        投稿ページ(運動情報)
-      </h1>
-      {user && <div>
-        <h2>ユーザー情報</h2>
-        <p>ID：{user.id}</p>
-        <p>名前：{user.name}</p>
-        <p>Eメール：{user.email}</p>
-      </div>}
+      <main className="flex flex-col items-center justify-center min-h-screen text-center w-full">
+        <Header />
+        <div className="content flex flex-col lg:flex-row items-center justify-between w-full">
+          <div className="text-content lg:w-1/2 text-center lg:text-left px-20 py-8">
+            <h1 className="text-emerald-400 text-4xl font-bold mb-4">
+              運動記録管理×SNS
+            </h1>
+            <h2 className="text-emerald-400 text-2xl font-medium mb-6">
+              運動を楽しく続けよう！！
+            </h2>
+            <p className="text-gray-700 text-lg mb-6">
+              日々の運動を可視化して、自分の運動習慣を記録できます<br/>
+              同じ志を持った仲間たちと切磋琢磨して運動を続けよう！<br/>
+              あなたの知らない有益な運動の情報を知れるかも…！？
+            </p>
+            <a href="/register"><button className="bg-emerald-400 text-white py-2 px-4 rounded hover:bg-emerald-500">
+              始める(新規登録)
+            </button></a>
+          </div>
+          <div className="image-content lg:w-1/2 flex justify-center lg:justify-end pr-32 pt-16">
+            <img src={img.src} alt="Typing Game" className="w-full max-w-md" />
+          </div>
+        </div>
+      </main>
     </div>
   );
 }
