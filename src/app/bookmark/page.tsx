@@ -1,12 +1,56 @@
 "use client";
 
 import Header from "@/app/Header";
+import { useEffect, useState } from "react";
+import { ThreeDots } from "@agney/react-loading";
+import Cookies from "js-cookie"
+
+interface Post {
+  id: number;
+  title: string;
+  body: string;
+  url: string;
+}
 
 export default function Page() {
-  const posts = [
-    { id: 1, title: "投稿タイトル1", body: "ここに投稿の内容が入ります。" , url: "https://x.com"},
-    { id: 2, title: "投稿タイトル2", body: "ここに投稿の内容が入ります。" , url: "https://x.com"},
-  ];
+  const URL = process.env.SERVER_URL
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [Load, setLoad] = useState(true);
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+
+    const Posts = async () => {
+      try{
+        const response = await fetch(`${URL}/bookmark`, {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+        });
+        const data = await response.json()
+        setPosts(data);
+      } catch (error) {
+        console.error("falied to fetch data");
+      } finally {
+        setLoad(false);
+      }
+    };
+
+    Posts();
+  }, []);
+
+  if (Load) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-gray-100">
+        <Header />
+        <div className="absolute">
+          <ThreeDots width="50" color="#3db70f"/>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="mt-16 bg-gray-100">

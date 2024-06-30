@@ -12,8 +12,6 @@ export default function Page() {
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        console.log('Name:', username);
-        console.log('Password:', password);
     };
     
     const Login = async (event: React.FormEvent) => {
