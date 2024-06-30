@@ -1,12 +1,22 @@
 "use client";
 
 import LogOutButton from "@/components/auth/LogOutButton";
-import React from "react";
+import LogInButton from "@/components/auth/LogInButton"
+import React, { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { FaUser } from "react-icons/fa";
+import Cookies from 'js-cookie';
 
 const Header = () => {
   const path = usePathname();
+  const [token, setToken] = useState('');
+
+  useEffect(() => {
+    const gettoken = Cookies.get('token');
+    if (gettoken) {
+      setToken(gettoken);
+    }
+  }, []);
 
   return (
     <header className="bg-white shadow-md fixed top-0 w-full z-50">
@@ -27,18 +37,22 @@ const Header = () => {
             ブックマーク
           </a>
         </nav>
-        <div className="flex space-x-1 hover:text-accent">
-          <a
-            href="/mypage"
-            className="text-black bg-slate-100 hover:bg-slate-200 hover:text-accent flex items-center bg-secondary black py-2 px-4 rounded"
-          >
-            <FaUser className="mr-2 " />
-            マイページ
-          </a>
-          <div className="ml-8">
-            <LogOutButton />
+        {token ? (
+          <div className="flex space-x-1 hover:text-accent">
+            <a
+              href="/mypage"
+              className="text-black bg-slate-100 hover:bg-slate-200 hover:text-accent flex items-center bg-secondary black py-2 px-4 rounded"
+            >
+              <FaUser className="mr-2 " />
+              マイページ
+            </a>
+            <div className="ml-8">
+              <LogOutButton />
+            </div>
           </div>
-        </div>
+        ) : (
+          <LogInButton />
+        )}
       </div>
     </header>
   );
