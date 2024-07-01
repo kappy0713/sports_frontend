@@ -12,7 +12,7 @@ git clone git@github.com:kappy0713/sports_frontend.git
 npm install
 ```
 #### 3. `.env.local`ファイルで環境変数の設定
-```
+```env
 SERVER_URL = YOUR_API_SERVER_URL
 ```
 #### 4. サーバー立ち上げ
