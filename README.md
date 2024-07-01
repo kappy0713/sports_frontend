@@ -2,6 +2,8 @@
 
 バックエンドのリポジトリは[こちら](https://github.com/kappy0713/sports_backend)から
 
+プロダクトの詳細はバックエンドリポジトリの[README.md](https://github.com/kappy0713/sports_backend/blob/main/README.md)よりご確認ください。
+
 ### 環境構築手順
 #### 1. リポジトリをクローン
 ```
