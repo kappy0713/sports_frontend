@@ -1,4 +1,4 @@
-## ExecisePlusのフロントエンドリポジトリ
+## ExercisePlusのフロントエンドリポジトリ
 
 バックエンドのリポジトリは[こちら](https://github.com/kappy0713/sports_backend)から
 
