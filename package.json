@@ -24,7 +24,7 @@
     "@remixicon/react": "^4.2.0",
     "@tremor/react": "^3.17.3",
     "js-cookie": "^3.0.5",
-    "next": "14.2.3",
+    "next": "14.2.12",
     "next-auth": "^4.24.7",
     "next-transpile-modules": "^10.0.1",
     "react": "^18",
